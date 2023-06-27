@@ -5,7 +5,8 @@ const fileService = require("./file.service");
 
 exports.createUser = async (req) => {
   try {
-    let { birthDate, name } = req.body;
+    let { birthDate, name, surname, gender, password, email, city, country } =
+      req.body;
     birthDate = new Date(birthDate);
     let today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -66,11 +67,18 @@ exports.createUser = async (req) => {
     } else {
       zodiac = "Balık";
     }
+    const _password = utils.helpers.hashToPassword(password);
     const user = new User({
       birthDate,
       name,
       zodiac,
-      age
+      age,
+      surname,
+      gender,
+      password:_password,
+      email,
+      city,
+      country,
     });
     const json = await userDal.user.create(user);
     return json;
@@ -90,7 +98,7 @@ exports.updateUser = async (req) => {
     const json = await userDal.user.updateById(id, {
       surname,
       gender,
-      email
+      email,
     });
     return json;
   } catch (error) {
@@ -109,8 +117,9 @@ exports.signIn = async (req) => {
         id: json._id,
         email: json.email
       };
+    } else {
+      throw new Error("şifre veya mail adresi hatalı");
     }
-    return null;
   } catch (error) {
     throw new Error(error);
   }
@@ -152,7 +161,7 @@ exports.createPassword = async (req, res) => {
       return {
         id: json._id,
         token,
-        _password
+        _password,
       };
     }
   } catch (error) {
