@@ -101,3 +101,5 @@ To use the chat functionality and communicate with your friends, follow these in
 3. Enter your messages in the chat interface and press send to communicate in real-time.
 4. You can exchange text, multimedia, or participate in group chats, depending on the features available in the application.
 
+### API Doc
+https://documenter.getpostman.com/view/26285727/2s93z873ic
